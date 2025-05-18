@@ -28,7 +28,16 @@ This project predicts bank customer churn using logistic regression and tracks e
     ```bash
     python -m src.main
     ```
+5. **Files Overview
+src/preprocessing.py: Data cleaning, encoding, scaling, and class balancing
 
+src/train_model.py: Contains the training logic for logistic regression
+
+src/visualize.py: Function to generate and log confusion matrix as image
+
+src/main.py: The orchestrator script that brings everything together and runs MLflow experiment
+
+requirements.txt: All dependencies for reproducibility
 ---
 
 
