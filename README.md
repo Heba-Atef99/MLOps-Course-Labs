@@ -28,7 +28,7 @@ This project predicts bank customer churn using logistic regression and tracks e
     ```bash
     python -m src.main
     ```
-## Files Overview      (Bounus Part)
+## 📦 Files Overview      (Bounus Part)
     - src/preprocessing.py: Data cleaning, encoding, scaling, and class balancing
     
     - src/train_model.py: Contains the training logic for logistic regression
