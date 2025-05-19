@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/805572009100007426/c631edf542a24992a1dc2053e7904c1d/artifacts
+end_time: 1747640656903
+entry_point_name: ''
+experiment_id: '805572009100007426'
+lifecycle_stage: active
+run_id: c631edf542a24992a1dc2053e7904c1d
+run_name: loud-stoat-3
+run_uuid: c631edf542a24992a1dc2053e7904c1d
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1747640640432
+status: 4
+tags: []
+user_id: hp

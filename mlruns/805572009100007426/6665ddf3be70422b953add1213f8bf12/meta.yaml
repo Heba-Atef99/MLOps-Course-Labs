@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/805572009100007426/6665ddf3be70422b953add1213f8bf12/artifacts
+end_time: 1747641026426
+entry_point_name: ''
+experiment_id: '805572009100007426'
+lifecycle_stage: active
+run_id: 6665ddf3be70422b953add1213f8bf12
+run_name: unequaled-snipe-385
+run_uuid: 6665ddf3be70422b953add1213f8bf12
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1747640902535
+status: 4
+tags: []
+user_id: hp

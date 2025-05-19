@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/805572009100007426/f52030161098483f9cd2e9de34034eaa/artifacts
+end_time: 1747601648084
+entry_point_name: ''
+experiment_id: '805572009100007426'
+lifecycle_stage: active
+run_id: f52030161098483f9cd2e9de34034eaa
+run_name: skittish-moose-782
+run_uuid: f52030161098483f9cd2e9de34034eaa
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1747601628223
+status: 4
+tags: []
+user_id: hp

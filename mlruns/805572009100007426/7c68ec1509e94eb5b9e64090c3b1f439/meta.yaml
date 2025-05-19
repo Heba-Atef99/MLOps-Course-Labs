@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/805572009100007426/7c68ec1509e94eb5b9e64090c3b1f439/artifacts
+end_time: 1747602453569
+entry_point_name: ''
+experiment_id: '805572009100007426'
+lifecycle_stage: active
+run_id: 7c68ec1509e94eb5b9e64090c3b1f439
+run_name: upbeat-wolf-331
+run_uuid: 7c68ec1509e94eb5b9e64090c3b1f439
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1747602438611
+status: 4
+tags: []
+user_id: hp

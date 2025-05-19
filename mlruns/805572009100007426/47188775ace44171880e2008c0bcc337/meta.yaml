@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/805572009100007426/47188775ace44171880e2008c0bcc337/artifacts
+end_time: 1747645997217
+entry_point_name: ''
+experiment_id: '805572009100007426'
+lifecycle_stage: active
+run_id: 47188775ace44171880e2008c0bcc337
+run_name: beautiful-shad-556
+run_uuid: 47188775ace44171880e2008c0bcc337
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1747645974252
+status: 3
+tags: []
+user_id: hp

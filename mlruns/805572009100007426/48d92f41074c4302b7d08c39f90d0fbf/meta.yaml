@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/805572009100007426/48d92f41074c4302b7d08c39f90d0fbf/artifacts
+end_time: 1747641195936
+entry_point_name: ''
+experiment_id: '805572009100007426'
+lifecycle_stage: active
+run_id: 48d92f41074c4302b7d08c39f90d0fbf
+run_name: puzzled-bear-727
+run_uuid: 48d92f41074c4302b7d08c39f90d0fbf
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1747641175112
+status: 4
+tags: []
+user_id: hp

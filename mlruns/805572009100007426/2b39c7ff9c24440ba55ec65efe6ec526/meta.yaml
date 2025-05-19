@@ -1,0 +1,16 @@
+artifact_uri: mlflow-artifacts:/805572009100007426/2b39c7ff9c24440ba55ec65efe6ec526/artifacts
+deleted_time: 1747596687877
+end_time: 1747596622888
+entry_point_name: ''
+experiment_id: '805572009100007426'
+lifecycle_stage: deleted
+run_id: 2b39c7ff9c24440ba55ec65efe6ec526
+run_name: shivering-bass-622
+run_uuid: 2b39c7ff9c24440ba55ec65efe6ec526
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1747596593264
+status: 3
+tags: []
+user_id: hp

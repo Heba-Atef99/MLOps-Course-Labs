@@ -1,0 +1,16 @@
+artifact_uri: mlflow-artifacts:/805572009100007426/20ea35c3fabe4f2fab8f45384c293674/artifacts
+deleted_time: 1747594487522
+end_time: 1747594238354
+entry_point_name: ''
+experiment_id: '805572009100007426'
+lifecycle_stage: deleted
+run_id: 20ea35c3fabe4f2fab8f45384c293674
+run_name: bold-kite-314
+run_uuid: 20ea35c3fabe4f2fab8f45384c293674
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1747594238273
+status: 4
+tags: []
+user_id: hp

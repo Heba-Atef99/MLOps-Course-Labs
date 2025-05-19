@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/805572009100007426/e9fab2c2643245e6acd7a7d763db88f4/artifacts
+end_time: 1747642976635
+entry_point_name: ''
+experiment_id: '805572009100007426'
+lifecycle_stage: active
+run_id: e9fab2c2643245e6acd7a7d763db88f4
+run_name: sassy-perch-307
+run_uuid: e9fab2c2643245e6acd7a7d763db88f4
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1747641858651
+status: 4
+tags: []
+user_id: hp
