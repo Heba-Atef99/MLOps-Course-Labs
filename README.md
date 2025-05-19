@@ -4,7 +4,7 @@
 
 This project predicts bank customer churn using logistic regression and tracks experiments using **MLflow**. It includes proper data preprocessing, class balancing, and performance evaluation through multiple metrics and visualizations.
 
----
+-------
 
 ## 🚀 Setup Instructions
 
@@ -38,6 +38,6 @@ This project predicts bank customer churn using logistic regression and tracks e
     - src/main.py: The orchestrator script that brings everything together and runs MLflow experiment
     
     - requirements.txt: All dependencies for reproducibility
----
+---------
 
 
