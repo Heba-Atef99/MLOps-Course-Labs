@@ -1,7 +1,43 @@
-# MLOps Course Labs
+# Churn Prediction with MLflow Tracking
 
-Welcome to the lab repository for the [MLOps Course](https://github.com/Heba-Atef99/MLOps-Course).
+## 📌 Project Overview
 
-Throughout this hands-on journey, you'll develop a **Bank Customer Churn Prediction** application—starting from the research phase and progressing through the full MLOps lifecycle, all the way to deployment.
+This project predicts bank customer churn using logistic regression and tracks experiments using **MLflow**. It includes proper data preprocessing, class balancing, and performance evaluation through multiple metrics and visualizations.
 
-> **Note:** Currently, the repository contains only the `research` branch. The remaining branches will be built step by step by the reader during the course days, as part of the learning experience.
+-------
+
+## 🚀 Setup Instructions
+
+1. **Create and activate a virtual environment**:
+    ```bash
+    python -m venv churn_prediction
+    churn_prediction\Scripts\activate  # On Windows
+    ```
+
+2. **Install dependencies**:
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+3. **Run MLflow UI (in a new terminal)**:
+    ```bash
+    mlflow ui
+    ```
+
+4. **Train and track experiments**:
+    ```bash
+    python -m src.main
+    ```
+## 📦 Files Overview      (Bounus Part)
+    - src/preprocessing.py: Data cleaning, encoding, scaling, and class balancing
+    
+    - src/train_model.py: Contains the training logic for logistic regression
+    
+    - src/visualize.py: Function to generate and log confusion matrix as image
+    
+    - src/main.py: The orchestrator script that brings everything together and runs MLflow experiment
+    
+    - requirements.txt: All dependencies for reproducibility
+---------
+
+
