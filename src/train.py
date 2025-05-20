@@ -3,6 +3,7 @@ This module contains functions to preprocess and train the model
 for bank consumer churn prediction using multiple models and MLflow.
 """
 
+import os
 import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.utils import resample
@@ -21,7 +22,7 @@ from sklearn.metrics import (
     ConfusionMatrixDisplay,
 )
 
-# Import MLflow
+import joblib
 import mlflow
 import mlflow.sklearn
 
@@ -88,7 +89,6 @@ def train_model(X_train, y_train, model_type="logistic"):
         mlflow.log_param("max_depth", 8)
 
     elif model_type == "xgboost":
-        from xgboost import XGBClassifier
         model = XGBClassifier(
             n_estimators=100, max_depth=6, learning_rate=0.1,
             use_label_encoder=False, eval_metric="logloss"
@@ -135,6 +135,12 @@ def run_experiment(model_type):
             signature=signature,
             input_example=X_train.iloc[:5],
         )
+
+        # Save XGBoost model as .pkl for API use
+        if model_type == "xgboost":
+            os.makedirs("model", exist_ok=True)
+            joblib.dump(model, "model/Best_model_for_production_v1.pkl")
+            print("XGBoost model saved to model/Best_model_for_production_v1.pkl")
 
 
 if __name__ == "__main__":
