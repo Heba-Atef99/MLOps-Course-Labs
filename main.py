@@ -1,6 +1,6 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
-from typing import List, Dict, Union
+from typing import Dict, Union
 import joblib
 import pandas as pd
 import logging
@@ -50,6 +50,9 @@ except Exception as e:
 # -----------------------
 class ModelInput(BaseModel):
     features: Dict[str, Union[int, float, str]]
+
+    class Config:
+        extra = "forbid"  # Strict schema
 
 # -----------------------
 # Endpoints

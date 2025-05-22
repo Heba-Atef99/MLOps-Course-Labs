@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - prometheus-setup
-  
+
 jobs:
   build_test_deploy:
     runs-on: ubuntu-latest
@@ -18,15 +18,16 @@ jobs:
 
       - name: Install Dependencies
         run: |
+          python -m pip install --upgrade pip
           pip install -r requirements.txt
+          pip install pytest
 
       - name: Run Tests
         run: |
-          pytest 
+          pytest --tb=short --disable-warnings
 
       - name: Build Docker Image
         run: |
-          pip install httpx pytest
           docker build -t ml-model-service:latest .
 
       - name: Configure AWS credentials
@@ -55,6 +56,6 @@ jobs:
           script: |
             aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com
             docker pull ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/churn-prediction:latest
-            docker stop churn-prediction || true # In case the container doesn't exist yet
+            docker stop churn-prediction || true
             docker rm churn-prediction || true
-            docker run -d -p 80:8005 --name churn-prediction ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/churn-prediction:latest 
+            docker run -d -p 80:8005 --name churn-prediction ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/churn-prediction:latest
