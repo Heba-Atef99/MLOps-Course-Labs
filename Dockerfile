@@ -14,4 +14,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 EXPOSE 8000
 
 # Run the FastAPI app using Uvicorn
-CMD ["uvicorn", "main:churn-api", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uvicorn", "main:churn-api", "--host", "0.0.0.0", "--port", "8005"]
