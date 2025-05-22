@@ -26,6 +26,7 @@ jobs:
 
       - name: Build Docker Image
         run: |
+          pip install httpx pytest
           docker build -t ml-model-service:latest .
 
       - name: Configure AWS credentials
