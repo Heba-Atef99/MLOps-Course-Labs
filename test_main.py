@@ -20,7 +20,6 @@ valid_payload = {
         "EstimatedSalary": 50000.0
     }
 }
-
 # Mock model and preprocessor for testing
 class DummyModel:
     def predict(self, X):
