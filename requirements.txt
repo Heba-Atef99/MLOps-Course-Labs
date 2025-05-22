@@ -23,7 +23,7 @@ graphql-core==3.2.6
 graphql-relay==3.2.0
 gunicorn==23.0.0
 h11==0.16.0
-httpx==0.25.0
+httpx
 idna==3.10
 importlib_metadata==8.6.1
 iniconfig==2.1.0
