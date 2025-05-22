@@ -1,10 +1,11 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
-from typing import List
+from typing import List, Dict, Union
 import joblib
 import pandas as pd
 import logging
 import os
+from prometheus_fastapi_instrumentator import Instrumentator
 
 # -----------------------
 # Logging Configuration
@@ -26,11 +27,11 @@ app = FastAPI(
     version="v1"
 )
 
+# -----------------------
+# Load Preprocessor & Model
+# -----------------------
 preprocessor = joblib.load("model/preprocessor.joblib")
 
-# -----------------------
-# Load the Trained Model
-# -----------------------
 model_path = "model/Best_model_for_production_v1.pkl"
 try:
     model = joblib.load(model_path)
@@ -42,15 +43,12 @@ except Exception as e:
 # -----------------------
 # Request Schema
 # -----------------------
-from typing import Dict, Union
-
 class ModelInput(BaseModel):
     features: Dict[str, Union[int, float, str]]
 
 # -----------------------
 # Endpoints
 # -----------------------
-
 @app.get("/")
 def home():
     logging.info("Home endpoint accessed.")
@@ -69,38 +67,21 @@ def predict(input_data: ModelInput):
         return {"error": "Model is not loaded."}
 
     try:
-        # Convert the dict into a DataFrame
-        logging.info(f"data loaded")
+        logging.info("Data received for prediction.")
         df = pd.DataFrame([input_data.features])
-        logging.info(f"data {df}")
+        logging.info(f"Input DataFrame: {df}")
 
-
-        # Apply preprocessing
-        logging.info(f"transformed data")
         transformed = preprocessor.transform(df)
-
-        # Predict
-        logging.info(f"model prediction, transformed data : {transformed}")
         prediction = model.predict(transformed)
         result = prediction.tolist()
 
         logging.info(f"Prediction result: {result}")
         return {"prediction": result}
-
     except Exception as e:
         logging.error(f"Prediction error: {e}")
         return {"error": str(e)}
-    
 
-
-from fastapi import FastAPI
-from prometheus_fastapi_instrumentator import Instrumentator
-
-app = FastAPI()
-
-@app.get("/")
-def read_root():
-    return {"message": "Hello World"}
-
+# -----------------------
 # Add Prometheus metrics
+# -----------------------
 Instrumentator().instrument(app).expose(app)
