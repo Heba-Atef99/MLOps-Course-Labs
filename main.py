@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from typing import List, Dict, Union
 import joblib
@@ -30,15 +30,20 @@ app = FastAPI(
 # -----------------------
 # Load Preprocessor & Model
 # -----------------------
-preprocessor = joblib.load("model/preprocessor.joblib")
+model = None
+preprocessor = None
 
-model_path = "model/Best_model_for_production_v1.pkl"
 try:
-    model = joblib.load(model_path)
+    preprocessor = joblib.load("model/preprocessor.joblib")
+    logging.info("Preprocessor loaded successfully.")
+except Exception as e:
+    logging.warning(f"Could not load preprocessor: {e}")
+
+try:
+    model = joblib.load("model/Best_model_for_production_v1.pkl")
     logging.info("Model loaded successfully.")
 except Exception as e:
-    logging.error(f"Failed to load model: {e}")
-    model = None
+    logging.warning(f"Could not load model: {e}")
 
 # -----------------------
 # Request Schema
@@ -51,35 +56,27 @@ class ModelInput(BaseModel):
 # -----------------------
 @app.get("/")
 def home():
-    logging.info("Home endpoint accessed.")
     return {"message": "Welcome to the XGBoost model API!"}
 
 @app.get("/health")
 def health_check():
     status = "Model is ready." if model else "Model not loaded."
-    logging.info(f"Health check: {status}")
     return {"status": status}
 
 @app.post("/predict")
 def predict(input_data: ModelInput):
-    if model is None:
-        logging.error("Prediction failed: Model not loaded.")
-        return {"error": "Model is not loaded."}
+    if model is None or preprocessor is None:
+        logging.error("Model or preprocessor not loaded.")
+        raise HTTPException(status_code=503, detail="Model or preprocessor not loaded.")
 
     try:
-        logging.info("Data received for prediction.")
         df = pd.DataFrame([input_data.features])
-        logging.info(f"Input DataFrame: {df}")
-
         transformed = preprocessor.transform(df)
         prediction = model.predict(transformed)
-        result = prediction.tolist()
-
-        logging.info(f"Prediction result: {result}")
-        return {"prediction": result}
+        return {"prediction": prediction.tolist()}
     except Exception as e:
         logging.error(f"Prediction error: {e}")
-        return {"error": str(e)}
+        raise HTTPException(status_code=500, detail=str(e))
 
 # -----------------------
 # Add Prometheus metrics

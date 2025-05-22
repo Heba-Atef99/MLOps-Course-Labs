@@ -1,6 +1,7 @@
 import pytest
 from fastapi.testclient import TestClient
 from main import app
+import numpy as np
 
 client = TestClient(app)
 
@@ -20,6 +21,22 @@ valid_payload = {
     }
 }
 
+# Mock model and preprocessor for testing
+class DummyModel:
+    def predict(self, X):
+        return np.array([1])
+
+class DummyPreprocessor:
+    def transform(self, df):
+        return df.values  # assume a basic transformation
+
+# Inject mock dependencies
+@app.on_event("startup")
+def setup_test_dependencies():
+    import main
+    main.model = DummyModel()
+    main.preprocessor = DummyPreprocessor()
+
 def test_predict_valid_input():
     response = client.post("/predict", json=valid_payload)
     assert response.status_code == 200
@@ -30,7 +47,7 @@ def test_predict_missing_field():
     payload = valid_payload.copy()
     del payload["features"]["Geography"]  # Remove required field
     response = client.post("/predict", json=payload)
-    assert response.status_code == 422  # Unprocessable Entity
+    assert response.status_code == 422  # Validation error
     assert "detail" in response.json()
 
 def test_predict_wrong_type():
