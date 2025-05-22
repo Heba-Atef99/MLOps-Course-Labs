@@ -1,11 +1,9 @@
 from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel
-from typing import Dict, Union
+from pydantic import BaseModel, Field
 import joblib
 import pandas as pd
 import logging
 import os
-from prometheus_fastapi_instrumentator import Instrumentator
 
 # -----------------------
 # Logging Configuration
@@ -27,61 +25,90 @@ app = FastAPI(
     version="v1"
 )
 
-# -----------------------
-# Load Preprocessor & Model
-# -----------------------
-model = None
-preprocessor = None
+preprocessor = joblib.load("model/preprocessor.joblib")
 
+# -----------------------
+# Load the Trained Model
+# -----------------------
+model_path = "model/Best_model_for_production_v1.pkl"
 try:
-    preprocessor = joblib.load("model/preprocessor.joblib")
-    logging.info("Preprocessor loaded successfully.")
-except Exception as e:
-    logging.warning(f"Could not load preprocessor: {e}")
-
-try:
-    model = joblib.load("model/Best_model_for_production_v1.pkl")
+    model = joblib.load(model_path)
     logging.info("Model loaded successfully.")
 except Exception as e:
-    logging.warning(f"Could not load model: {e}")
+    logging.error(f"Failed to load model: {e}")
+    model = None
 
 # -----------------------
 # Request Schema
 # -----------------------
-class ModelInput(BaseModel):
-    features: Dict[str, Union[int, float, str]]
 
-    class Config:
-        extra = "forbid"  # Strict schema
+class Features(BaseModel):
+    CreditScore: int
+    Geography: str
+    Gender: str
+    Age: int
+    Tenure: int
+    Balance: float
+    NumOfProducts: int
+    HasCrCard: int
+    IsActiveMember: int
+    EstimatedSalary: float
+
+class InputData(BaseModel):
+    features: Features
 
 # -----------------------
 # Endpoints
 # -----------------------
+
 @app.get("/")
 def home():
+    logging.info("Home endpoint accessed.")
     return {"message": "Welcome to the XGBoost model API!"}
 
 @app.get("/health")
 def health_check():
     status = "Model is ready." if model else "Model not loaded."
+    logging.info(f"Health check: {status}")
     return {"status": status}
 
 @app.post("/predict")
-def predict(input_data: ModelInput):
-    if model is None or preprocessor is None:
-        logging.error("Model or preprocessor not loaded.")
-        raise HTTPException(status_code=503, detail="Model or preprocessor not loaded.")
+def predict(input_data: InputData):
+    if model is None:
+        logging.error("Prediction failed: Model not loaded.")
+        raise HTTPException(status_code=503, detail="Model is not loaded.")
 
     try:
-        df = pd.DataFrame([input_data.features])
+        # Convert the Features object to dict then DataFrame
+        logging.info(f"Data received for prediction")
+        df = pd.DataFrame([input_data.features.dict()])
+        logging.info(f"Dataframe created: {df}")
+
+        # Apply preprocessing
+        logging.info(f"Applying preprocessing")
         transformed = preprocessor.transform(df)
+        logging.info(f"Data transformed: {transformed}")
+
+        # Predict
+        logging.info(f"Making prediction")
         prediction = model.predict(transformed)
-        return {"prediction": prediction.tolist()}
-    except Exception as e:
+        result = prediction.tolist()
+
+        logging.info(f"Prediction result: {result}")
+        return {"prediction": result}
+
+    except ValueError as e:
         logging.error(f"Prediction error: {e}")
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(status_code=422, detail=str(e))
+
+    except Exception as e:
+        logging.error(f"Unexpected error: {e}")
+        raise HTTPException(status_code=500, detail="Internal server error")
 
 # -----------------------
-# Add Prometheus metrics
+# Prometheus instrumentation
 # -----------------------
+
+from prometheus_fastapi_instrumentator import Instrumentator
+
 Instrumentator().instrument(app).expose(app)
