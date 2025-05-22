@@ -22,7 +22,7 @@ jobs:
 
       - name: Run Tests
         run: |
-          pytest test_main.py
+          pytest 
 
       - name: Build Docker Image
         run: |
