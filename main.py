@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 from typing import List
 import joblib
+import pandas as pd
 import logging
 import os
 
@@ -25,6 +26,8 @@ app = FastAPI(
     version="v1"
 )
 
+preprocessor = joblib.load("model/preprocessor.joblib")
+
 # -----------------------
 # Load the Trained Model
 # -----------------------
@@ -39,8 +42,10 @@ except Exception as e:
 # -----------------------
 # Request Schema
 # -----------------------
+from typing import Dict, Union
+
 class ModelInput(BaseModel):
-    features: List[float]  # List of feature values
+    features: Dict[str, Union[int, float, str]]
 
 # -----------------------
 # Endpoints
@@ -62,14 +67,26 @@ def predict(input_data: ModelInput):
     if model is None:
         logging.error("Prediction failed: Model not loaded.")
         return {"error": "Model is not loaded."}
-    
-    logging.info(f"Received prediction request: {input_data.features}")
-    
+
     try:
-        prediction = model.predict([input_data.features])
+        # Convert the dict into a DataFrame
+        logging.info(f"data loaded")
+        df = pd.DataFrame([input_data.features])
+        logging.info(f"data {df}")
+
+
+        # Apply preprocessing
+        logging.info(f"transformed data")
+        transformed = preprocessor.transform(df)
+
+        # Predict
+        logging.info(f"model prediction, transformed data : {transformed}")
+        prediction = model.predict(transformed)
         result = prediction.tolist()
+
         logging.info(f"Prediction result: {result}")
         return {"prediction": result}
+
     except Exception as e:
         logging.error(f"Prediction error: {e}")
         return {"error": str(e)}

@@ -68,12 +68,18 @@ def preprocess(df):
         remainder="passthrough",
     )
 
+
     X_train = col_transf.fit_transform(X_train)
     X_train = pd.DataFrame(X_train, columns=col_transf.get_feature_names_out())
 
     X_test = col_transf.transform(X_test)
     X_test = pd.DataFrame(X_test, columns=col_transf.get_feature_names_out())
 
+
+    # Save the preprocessor for later use
+    joblib.dump(
+        col_transf, "model/preprocessor.joblib"
+    )
     return col_transf, X_train, X_test, y_train, y_test
 
 
