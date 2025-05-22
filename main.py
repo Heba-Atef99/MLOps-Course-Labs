@@ -90,3 +90,17 @@ def predict(input_data: ModelInput):
     except Exception as e:
         logging.error(f"Prediction error: {e}")
         return {"error": str(e)}
+    
+
+
+from fastapi import FastAPI
+from prometheus_fastapi_instrumentator import Instrumentator
+
+app = FastAPI()
+
+@app.get("/")
+def read_root():
+    return {"message": "Hello World"}
+
+# Add Prometheus metrics
+Instrumentator().instrument(app).expose(app)
