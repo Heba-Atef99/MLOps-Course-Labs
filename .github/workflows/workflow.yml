@@ -44,8 +44,8 @@ jobs:
     - name: Install Railway CLI
       run: curl -sSL https://railway.app/install.sh | sh
 
-    - name: Login to Railway
-      run: railway login --apiKey ${{ secrets.RAILWAY_API_KEY }}
+    - name: Set Railway API Key
+      run: echo "RAILWAY_API_KEY=${{ secrets.RAILWAY_API_KEY }}" >> $GITHUB_ENV
 
     - name: Deploy to Railway
       run: railway up --detach
@@ -54,4 +54,3 @@ jobs:
       run: |
         sleep 15
         curl -X GET ${{ secrets.RAILWAY_URL }}/health
-
