@@ -2,8 +2,8 @@ name: CI/CD Pipeline
 
 on:
   push:
-    bgit add .ranches:
-      - CI/CD 
+    branches:
+      - CI/CD
 
 jobs:
   build_and_deploy:
@@ -41,19 +41,17 @@ jobs:
       run: |
         docker push 2019594350/churn-prediction:rowaina-730
 
-    - name: SSH to EC2 and pull image & run container
-      uses: appleboy/ssh-action@v0.1.6
-      with:
-        host: ${{ secrets.EC2_HOST }}
-        username: ${{ secrets.EC2_USER }}
-        key: ${{ secrets.EC2_SSH_KEY }}
-        script: |
-          docker pull 2019594350/churn-prediction:rowaina-730
-          docker stop churn-container || true
-          docker rm churn-container || true
-          docker run -d -p 8000:8000 --name churn-container 2019594350/churn-prediction:rowaina-730
+    - name: Install Railway CLI
+      run: curl -sSL https://railway.app/install.sh | sh
+
+    - name: Login to Railway
+      run: railway login --apiKey ${{ secrets.RAILWAY_API_KEY }}
+
+    - name: Deploy to Railway
+      run: railway up --detach
 
     - name: Test API endpoint
       run: |
-        sleep 10
-        curl -X GET http://${{ secrets.EC2_HOST }}:8000/health
+        sleep 15
+        curl -X GET ${{ secrets.RAILWAY_URL }}/health
+
