@@ -1,4 +1,4 @@
-name: CI/CD Pipeline 
+name: CI/CD Pipeline
 
 on:
   push:
@@ -44,8 +44,8 @@ jobs:
     - name: Install Railway CLI
       run: curl -sSL https://railway.app/install.sh | sh
 
-    - name: Set Railway API Key
-      run: echo "RAILWAY_API_KEY=${{ secrets.RAILWAY_API_KEY }}" >> $GITHUB_ENV
+    - name: Login to Railway
+      run: echo "${{ secrets.RAILWAY_API_KEY }}" | railway login --stdin
 
     - name: Deploy to Railway
       run: railway up --detach
@@ -53,4 +53,4 @@ jobs:
     - name: Test API endpoint
       run: |
         sleep 15
-        curl -X GET ${{ secrets.RAILWAY_URL }}/health
+        curl --fail -X GET ${{ secrets.RAILWAY_URL }}/health
