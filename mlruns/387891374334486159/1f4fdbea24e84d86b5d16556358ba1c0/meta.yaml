@@ -1,0 +1,16 @@
+artifact_uri: mlflow-artifacts:/387891374334486159/1f4fdbea24e84d86b5d16556358ba1c0/artifacts
+deleted_time: 1747640882956
+end_time: null
+entry_point_name: ''
+experiment_id: '387891374334486159'
+lifecycle_stage: deleted
+run_id: 1f4fdbea24e84d86b5d16556358ba1c0
+run_name: industrious-mink-692
+run_uuid: 1f4fdbea24e84d86b5d16556358ba1c0
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1747638946541
+status: 1
+tags: []
+user_id: original store

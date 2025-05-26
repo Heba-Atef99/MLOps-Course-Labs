@@ -1,0 +1,14 @@
+aliases: []
+creation_timestamp: 1747641711016
+current_stage: Deleted_Internal
+description: ''
+last_updated_timestamp: 1747641877233
+name: XGBoostChurnModel
+run_id: b9c95704e4454e24862f7d0d5785c409
+run_link: ''
+source: models:/XGBoostChurnModel/1
+status: READY
+status_message: null
+storage_location: mlflow-artifacts:/387891374334486159/b9c95704e4454e24862f7d0d5785c409/artifacts/model
+user_id: null
+version: 2

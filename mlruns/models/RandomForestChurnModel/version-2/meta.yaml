@@ -1,0 +1,14 @@
+aliases: []
+creation_timestamp: 1747640788630
+current_stage: Deleted_Internal
+description: ''
+last_updated_timestamp: 1747642630320
+name: RandomForestChurnModel
+run_id: 72e62fd061d04584bc366307418101b2
+run_link: ''
+source: mlflow-artifacts:/387891374334486159/72e62fd061d04584bc366307418101b2/artifacts/model
+status: READY
+status_message: null
+storage_location: mlflow-artifacts:/387891374334486159/72e62fd061d04584bc366307418101b2/artifacts/model
+user_id: null
+version: 2
